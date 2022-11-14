@@ -1,10 +1,12 @@
 package br.com.gastoviagem
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.com.gastoviagem.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     /*
       ActivityMainBinding é a classe que foi criada para mapear os elementos
@@ -16,5 +18,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnCalculate.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View) {
+        if(view.id == R.id.btn_calculate){
+            calculate()
+        }
+    }
+
+    private fun calculate() {
+        val distance = binding.editDistance.text.toString().toFloat()
+        val price = binding.editPrice.text.toString().toFloat()
+        val autonomy = binding.editAutonomy.text.toString().toFloat()
+
+        val totalValue = (distance * price) / autonomy
+        binding.textTotalValue.text = "R$ ${"%.2f".format(totalValue)}"
+        //Toast.makeText(this, totalValueStr, Toast.LENGTH_LONG).show()
     }
 }
